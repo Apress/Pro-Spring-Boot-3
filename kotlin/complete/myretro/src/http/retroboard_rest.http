@@ -1,0 +1,30 @@
+### Get all boards
+GET http://localhost:8080/retros
+Accept: application/json
+
+### Add new board
+POST http://localhost:8080/retros
+Content-Type: application/json
+
+{
+  "name": "Tres"
+}
+
+### Modify
+PUT http://localhost:8080/retros
+Content-Type: application/json
+
+{
+  "id": "{{boardId}}",
+  "name": "D-O-S"
+}
+
+
+### Find by Id
+GET http://localhost:8080/retros/{{boardId}}
+Accept: application/json
+
+
+### Delete By Id
+DELETE http://localhost:8080/retros/{{boardId}}
+Accept: application/json

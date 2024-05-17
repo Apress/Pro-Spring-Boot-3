@@ -1,0 +1,11 @@
+### Get users
+GET http://localhost:8080/retros/{{boardId4User}}/users
+Accept: application/json
+
+### Add new User
+PUT http://localhost:8080/retros/{{boardId4User}}/users/{{email}}
+Accept: application/json
+
+### Remove User from Board
+DELETE http://localhost:8080/retros/{{boardId4User}}/users/{{email}}
+Accept: application/json

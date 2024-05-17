@@ -1,0 +1,36 @@
+### Get all Cards from Board
+GET http://localhost:8080/retros/{{boardId4Card}}/cards
+Accept: application/json
+
+
+### Add Card to a Board
+POST http://localhost:8080/retros/{{boardId4Card}}/cards
+Content-Type: application/json
+Accept: application/json
+
+{
+  "comment": "Meeting new people",
+  "cardType": "HAPPY",
+  "userEmail": "ximena@email.com"
+}
+
+> {%
+const id = response.body.id
+client.global.set("cardIdChange",id)
+%}
+
+### Modify
+PUT http://localhost:8080/retros/{{boardId4Card}}/cards
+Content-Type: application/json
+Accept: application/json
+
+{
+  "id": "{{cardIdChange}}",
+  "comment": "Meeting new people is awesome",
+  "cardType": "HAPPY",
+  "userEmail": "ximena@email.com"
+}
+
+### Delete Card
+DELETE http://localhost:8080/retros/{{boardId4Card}}/cards/{{cardIdChange}}
+Accept: application/json
