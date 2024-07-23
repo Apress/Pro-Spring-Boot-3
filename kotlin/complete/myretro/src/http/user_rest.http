@@ -1,0 +1,84 @@
+### GET all users 1st time
+GET http://localhost:8080/users
+Accept: application/json
+
+> {%
+     client.test("Get all users 1st time",function (){
+         const body = response.body
+         client.assert(response.status === 200, "Not 200")
+         client.assert(body.length === 2,"Not an array")
+         client.assert(body[0].name === "Ximena", "Not Ximena")
+     })
+ %}
+
+### GET user by email
+GET http://localhost:8080/users/norma@email.com
+Accept: application/json
+
+> {%
+     client.test("Find user Norma",function (){
+         const body = response.body
+         client.assert(response.status === 200, "Not 200")
+         client.assert(body.name === "Norma","Not Norma")
+     })
+ %}
+
+### POST new user
+POST http://localhost:8080/users
+Content-Type: application/json
+
+{
+  "name": "Dummy",
+  "email": "dummy@email.com",
+  "password": "aw2s0me",
+  "userRole": [
+    "INFO"
+  ],
+  "active": true
+}
+
+> {%
+     client.test("New user Dummy",function (){
+         const body = response.body
+         client.assert(response.status === 200, "Not 200")
+         client.assert(body.name === "Dummy","Not Dummy")
+     })
+ %}
+
+### GET all users 2nd time
+GET http://localhost:8080/users
+Accept: application/json
+
+> {%
+     client.test("Get all users 2nd time",function (){
+         const body = response.body
+         client.assert(response.status === 200, "Not 200")
+         client.assert(body.length === 3,"Not an array")
+         client.assert(body[2].name === "Dummy", "Not Dummy")
+     })
+ %}
+
+
+### DELETE user
+DELETE http://localhost:8080/users/dummy@email.com
+
+> {%
+     client.test("Delete user",function (){
+         const body = response.body
+         client.assert(response.status === 204, "Not 204")
+         client.assert(body === null,"Not null")
+     })
+ %}
+
+### GET all users 3rd time
+GET http://localhost:8080/users
+Accept: application/json
+
+> {%
+     client.test("Get all users 3rd time",function (){
+         const body = response.body
+         client.assert(response.status === 200, "Not 200")
+         client.assert(body.length === 2,"Not an array")
+         client.assert(body[0].name === "Ximena", "Not Ximena")
+     })
+ %}

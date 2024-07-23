@@ -1,0 +1,11 @@
+#!/bin/zsh
+
+for file in $(find . -name "build.gradle" -exec realpath {} \;); do
+  sed -i -e "s/version '3.2.1'/version '3.2.2'/g" $file
+  echo $file 
+done
+
+for i in $(find . -name "build.gradle-e" -exec realpath {} \;); do
+  rm $i
+  echo $i
+done
