@@ -1,0 +1,79 @@
+= Kubernetes
+
+== Requirements
+
+1. Install https://minikube.sigs.k8s.io/docs/start/[Minikube^]
+2. Install https://kubernetes.io/docs/tasks/tools/[`kubectl`^]
+3. [Optional] Install https://k9scli.io/[k9s^]
+
+== Start Minikube
+
+[source,shell]
+----
+minikube start --memory 4096
+----
+
+
+== Services
+
+1. Add Postgresql
++
+[source,shell]
+----
+kubectl apply -f postgresql.yaml
+----
+
+2.  Add Services
++
+[source,shell]
+----
+kubectl apply -f myretro.yaml
+----
+
+3. Expose/Port Forward the API Gateway
++
+[source,shell]
+----
+kubectl port-forward svc/myretro-gateway-service 8080:8080
+----
+
+
+== Running `cURL` commands:
+
+
+[source,shell]
+----
+curl -s http://localhost:8080/users | jq
+----
+
+
+[source,shell]
+----
+curl -s http://localhost:8080/retros | jq
+----
+
+[source,shell]
+----
+curl -s http://localhost:8080/retros/users | jq
+----
+
+
+== Cleaning Up
+
+[source,shell]
+----
+minikube delete --all --purge
+----
+
+
+== Review Logs
+
+[source,shell]
+----
+kubectl get pods
+----
+
+[source,shell]
+----
+kubectl logs <pod-name>
+----

@@ -1,0 +1,36 @@
+type Query {
+    retros: [RetroBoard]
+    retro(retroId: ID!): RetroBoard
+    cards(retroId: ID!): [Card]
+    card(cardId: ID!): Card
+}
+
+type Mutation {
+    createRetro(name: String!): RetroBoard
+    createCard(retroId: ID!, card: CardInput!): Card
+    updateCard(cardId: ID!, card: CardInput!): Card
+    deleteCard(cardId: ID!): Boolean
+}
+
+type RetroBoard {
+    id: ID!
+    name: String!
+    cards: [Card]
+}
+
+type Card {
+    id: ID!
+    comment: String!
+    cardType: CardType!
+}
+
+enum CardType {
+    HAPPY
+    MEH
+    SAD
+}
+
+input CardInput {
+    comment: String!
+    cardType: CardType!
+}

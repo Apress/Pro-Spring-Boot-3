@@ -1,0 +1,56 @@
+[
+  {
+    "name": "Ximena Guzmán",
+    "email": "ximena@email.com",
+    "gravatarUrl": "https://www.gravatar.com/avatar/23bb62a7d0ca63c9a804908e57bf6bd4?d=wavatar",
+    "password": "aw2s0me",
+    "userRole": [
+      "USER"
+    ],
+    "active": true
+  },
+  {
+    "name": "Norma Ibañez",
+    "email": "norma@email.com",
+    "gravatarUrl": "https://www.gravatar.com/avatar/f07f7e553264c9710105edebe6c465e7?d=wavatar",
+    "password": "aw2s0me",
+    "userRole": [
+      "USER",
+      "ADMIN"
+    ],
+    "active": true
+  },
+  {
+    "name": "Emmanuel García",
+    "email": "emmanuel@email.com",
+    "gravatarUrl": "https://www.gravatar.com/avatar/f07f7e553264c9710105edebe6c465e7?d=wavatar",
+    "password": "aw2s0me",
+    "userRole": [
+      "USER",
+      "ADMIN"
+    ],
+    "active": false
+  },
+  {
+    "name": "Danilo Díaz",
+    "email": "danilo@email.com",
+    "gravatarUrl": "https://www.gravatar.com/avatar/f07f7e553264c9710105edebe6c465e7?d=wavatar",
+    "password": "aw2s0me",
+    "userRole": [
+      "USER",
+      "ADMIN"
+    ],
+    "active": true
+  },
+  {
+    "name": "María López",
+    "email": "maria@email.com",
+    "gravatarUrl": "https://www.gravatar.com/avatar/f07f7e553264c9710105edebe6c465e7?d=wavatar",
+    "password": "aw2s0me",
+    "userRole": [
+      "USER",
+      "ADMIN"
+    ],
+    "active": true
+  }
+]

@@ -1,0 +1,50 @@
+# Server
+server:
+  port: ${PORT:8080}
+
+# Spring
+spring:
+  main:
+    web-application-type: reactive
+  # Mongo
+  data:
+    mongodb:
+      uuid-representation: standard
+      database: retrodb
+      repositories.type: reactive
+  # Security
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:9000
+      client:
+        registration:
+          myretro-client-authorization-code:
+            provider: spring
+            client-id: myretro-client
+            client-secret: myretro
+            client-name: "MyRetro Client"
+            redirect-uri: 'http://127.0.0.1:8080/login/oauth2/code/{registrationId}'
+            scope:
+              - openid
+              - profile
+              - retros:read
+              - retros:write
+        provider:
+          spring:
+            issuer-uri: http://localhost:9000
+
+
+# User Configuration
+service:
+  users:
+    server: http://localhost:8181
+
+
+
+# Logging
+logging:
+  level:
+    org.springframework.data.mongodb: DEBUG
+    org.springframework.security: TRACE

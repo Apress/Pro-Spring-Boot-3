@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Retro App</title>
+  <link rel="stylesheet" href="assets/css/style.css?v=0.4">
+</head>
+<body>
+  <header>
+    <div class="branding">Retro App</div>
+    <div class="user-nav-container">
+      <ul class="user-nav">
+        <li><a href="#" id="btn__profile">My Profile</a></li>
+        <li><a href="#" id="btn__logout">Log Out</a></li>
+      </ul>
+    </div>
+  </header>
+
+
+  <main>
+    <div id="profile" style="display:none">
+      <div class="container container-boxed">
+        <div class="col-50">
+          <h2><img id="profile__data-gravatar" src="" width="40" alt=""> My Profile</h2>
+        </div>
+        <div class="col-50">
+          <div id="profile__data" class="profile__data">
+            <p>
+              <span class="label">Name</span>
+              <span class="data" id="profile__data-name"></span>
+            </p>
+            <p>
+              <span class="label">Email</span>
+              <span class="data" id="profile__data-email"></span>
+            </p>
+            <p>
+              <span class="label">Role</span>
+              <span class="data" id="profile__data-role"></span>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container">
+      <div class="col">
+        <h1 class="title"><img src="assets/images/icon-users.svg" width="80" alt="Users"><span id="retro_name">Retro Project 1</span></h1>
+      </div> 
+    </div>
+    <div class="container">
+      <div class="container-column-retro">
+        <div class="retro-column bg-blue">
+          <h3>
+            <img src="assets/images/icon-user-happy.svg" alt="">
+            I’m glad at…
+          </h3>
+
+          <form action="">
+            <div class="form-item">
+              <label for="retro-comment-happy"></label>
+              <input  type="text" 
+                      name="retro-comment"
+                      id="retro-comment-happy"
+                      placeholder="Write your comment">
+              <button class="card__add" data-cardtype="HAPPY"><img src="assets/images/icon-button-blue-enter.svg" alt=""></button>
+            </div>
+          </form>
+
+          <ul id="retro__comments-happy" class="retro-comment-list"></ul>
+        </div>
+        <div class="retro-column bg-yellow">
+          <h3>
+            <img src="assets/images/icon-user-serious.svg" alt="">
+            I’m wondering about…
+          </h3>
+
+          <form action="">
+            <div class="form-item">
+              <label for="retro-comment-meh"></label>
+              <input  type="text"
+                      name="retro-comment"
+                      id="retro-comment-meh"
+                      placeholder="Write your comment">
+              <button class="card__add" data-cardtype="MEH"><img src="assets/images/icon-button-yellow-enter.svg" alt=""></button>
+            </div>
+          </form>
+
+          <ul id="retro__comments-meh" class="retro-comment-list"></ul>
+        </div>
+        <div class="retro-column bg-red">
+          <h3>
+            <img src="assets/images/icon-user-happy-unhappy.svg" alt="">
+            It was not so great that…
+          </h3>
+
+          <form action="">
+            <div class="form-item">
+              <label for="retro-comment-sad"></label>
+              <input  type="text" 
+                      name="retro-comment"
+                      id="retro-comment-sad"
+                      placeholder="Write your comment">
+              <button class="card__add" data-cardtype="SAD"><img src="assets/images/icon-button-red-enter.svg" alt=""></button>
+            </div>
+          </form>
+
+          <ul id="retro__comments-sad" class="retro-comment-list"></ul>
+        </div>
+        
+        
+      </div>
+    </div>
+  </main>
+  <!-- end MAIN -->
+
+  <script
+    src="assets/js/jquery-3.6.4.min.js"
+    crossorigin="anonymous"></script>
+  <script src="assets/js/common.js"></script>
+  <script src="assets/js/cards.js"></script>
+</body>
+</html>

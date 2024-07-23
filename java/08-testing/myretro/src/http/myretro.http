@@ -1,0 +1,7 @@
+### Add new board
+POST http://localhost:8080/retros
+Content-Type: application/json
+
+{
+  "name": "Spring Boot 3"
+}

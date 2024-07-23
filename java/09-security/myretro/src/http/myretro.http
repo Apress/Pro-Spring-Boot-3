@@ -1,0 +1,12 @@
+### Add new board
+POST http://localhost:8081/retros
+Content-Type: application/json
+
+{
+  "name": "Spring Boot 3"
+}
+
+### Get Retros
+GET http://localhost:8081/retros
+Accept: application/json
+Authorization: Basic norma@email.com aw2s0meR!

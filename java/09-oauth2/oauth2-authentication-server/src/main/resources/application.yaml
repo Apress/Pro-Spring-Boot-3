@@ -1,0 +1,60 @@
+## Server
+server:
+  port: ${PORT:9000}
+
+## Logging
+logging:
+  level:
+    org.springframework.security: trace
+
+## Bcrypt - Cost Factor 10
+## https://bcrypt.online/
+## Spring Security
+spring:
+  security:
+    oauth2:
+      authorizationserver:
+        client:
+          users-client:
+            registration:
+              client-name: "Users' Client"
+              client-id: "users-client"
+              client-secret: "$2y$10$4Da3ibamZ5Jo34gs7HUhLuNmbPdEhxqWrR9v/Z.qosEmWbYYVHCZe"
+              client-authentication-methods:
+                - "client_secret_basic"
+              authorization-grant-types:
+                - "authorization_code"
+                - "refresh_token"
+                - "client_credentials"
+              redirect-uris:
+                - "http://127.0.0.1:8181/login/oauth2/code/users-client-authorization-code"
+                - "http://127.0.0.1:8181/users"
+              post-logout-redirect-uris:
+                - "http://127.0.0.1:8181/"
+              scopes:
+                - "openid"
+                - "profile"
+                - "users.read"
+                - "users.write"
+            require-authorization-consent: true
+          myretro-client:
+            registration:
+              client-name: "MyRetro Client"
+              client-id: "myretro-client"
+              client-secret: "$2y$10$KzJqWNyybMyX8.0EJNAGI.YRI4M/FuOZcizXQboZ4YDfQfzG9ZmrK"
+              client-authentication-methods:
+                - "client_secret_basic"
+              authorization-grant-types:
+                - "authorization_code"
+                - "refresh_token"
+                - "client_credentials"
+              redirect-uris:
+                - "http://127.0.0.1:8080/login/oauth2/code/myretro-client-authorization-code"
+              post-logout-redirect-uris:
+                - "http://127.0.0.1:8080/"
+              scopes:
+                - "openid"
+                - "profile"
+                - "retros:read"
+                - "retros:write"
+            require-authorization-consent: true

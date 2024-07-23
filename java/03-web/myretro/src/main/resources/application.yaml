@@ -1,0 +1,23 @@
+spring:
+  banner:
+    location: 'classpath:/META-INF/banner.txt'
+
+
+
+service:
+  users:
+    server: http://localhost
+    port: 8082
+    username: admin
+    password: aW3s0m3
+---
+spring:
+  config:
+    activate:
+      on-profile: cloud
+service:
+  users:
+    server: cloud.server.com
+    port: 1089
+    username: root
+    password: Sup3RaW3s0m3

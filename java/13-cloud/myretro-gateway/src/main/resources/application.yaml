@@ -1,0 +1,32 @@
+spring:
+  application:
+    name: myretro-gateway
+  config:
+    import: optional:consul://
+  cloud:
+    gateway:
+      routes:
+        - id: users
+          uri: lb://users-service
+          predicates:
+            - Path=/users/**
+          filters:
+            # Only it the Users Service has a /v1/users prefix  in the Controller - @RequestMapping("/v1/users")
+            #- PrefixPath=/v1
+            - name: CircuitBreaker
+              args:
+                name: users
+                fallbackUri: forward:/fallback/users
+        - id: myretro
+          uri: lb://my-retro-app
+          predicates:
+            - Path=/retros/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: retros
+                fallbackUri: forward:/fallback/retros
+
+server:
+  port: ${PORT:8080}
+

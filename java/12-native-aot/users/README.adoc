@@ -1,0 +1,67 @@
+= GraalVM / AOT
+
+== Gradle
+
+- Add
+
+[source,groovy]
+----
+tasks.named("bootBuildImage") {
+    builder = "dashaun/builder:tiny"
+    environment = ["BP_NATIVE_IMAGE" : "true"]
+}
+----
+
+[source,shell]
+----
+./gradlew clean nativeCompile
+----
+
+[source,shell]
+----
+./gradlew bootBuildImage
+----
+
+
+== Maven
+
+- Add
+
+[source,xml]
+----
+<build>
+    <plugins>
+        <plugin>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-maven-plugin</artifactId>
+            <configuration>
+                <image>
+                    <builder>dashaun/builder:tiny</builder>
+                </image>
+            </configuration>
+        </plugin>
+    </plugins>
+</build>
+----
+
+NOTE: Create OCI images just like you would with `paketobuildpacks/builder:tiny`
+
+[source,shell]
+----
+./mvnw -Pnative native:compile
+----
+
+
+[source,shell]
+----
+./mvnw -Pnative spring-boot:build-image
+----
+
+
+=== Generated Sources
+
+Generated source files can be found in `target/spring-aot/main/sources` when using `Maven` and `build/generated/aotSources` with `Gradle`.
+
+=== Generated Hints
+
+Generated hint files can be found in `target/spring-aot/main/resources` when using `Maven` and `build/generated/aotResources` with `Gradle`.

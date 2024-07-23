@@ -1,0 +1,139 @@
+= GraphQL
+
+== Schema
+
+[source,graphql]
+.schema.graphqls
+----
+type Query {
+    retros: [RetroBoard]
+    retro(retroId: ID!): RetroBoard
+    cards(retroId: ID!): [Card]
+    card(cardId: ID!): Card
+}
+
+type Mutation {
+    createRetro(name: String!): RetroBoard
+    createCard(retroId: ID!, card: CardInput!): Card
+    updateCard(cardId: ID!, card: CardInput!): Card
+    deleteCard(cardId: ID!): Boolean
+}
+
+type RetroBoard {
+    id: ID!
+    name: String!
+    cards: [Card]
+}
+
+type Card {
+    id: ID!
+    comment: String!
+    cardType: CardType!
+}
+
+enum CardType {
+    HAPPY
+    MEH
+    SAD
+}
+
+input CardInput {
+    comment: String!
+    cardType: CardType!
+}
+----
+
+== Queries
+
+[source,graphql]
+----
+query {
+  retros {
+    id
+    name
+    cards {
+      id
+      comment
+      cardType
+    }
+  }
+}
+----
+
+[source,graphql]
+----
+query {
+  retro(retroId: "1") {
+    id
+    name
+    cards {
+      id
+      comment
+      cardType
+    }
+  }
+}
+----
+
+[source,graphql]
+----
+query {
+  cards(retroId: "1") {
+    id
+    comment
+    cardType
+  }
+}
+----
+
+[source,graphql]
+----
+query {
+  card(cardId: "1") {
+    id
+    comment
+    cardType
+  }
+}
+----
+
+== Mutations
+
+[source,graphql]
+----
+mutation {
+  createRetro(name: "Retro 1") {
+    id
+    name
+  }
+}
+----
+
+[source,graphql]
+----
+mutation {
+  createCard(retroId: "1", card: {comment: "Great job team!", cardType: HAPPY}) {
+    id
+    comment
+    cardType
+  }
+}
+----
+
+[source,graphql]
+----
+mutation {
+  updateCard(cardId: "1", card: {comment: "Great job team!", cardType: HAPPY}) {
+    id
+    comment
+    cardType
+  }
+}
+----
+
+[source,graphql]
+----
+mutation {
+  deleteCard(cardId: "1")
+}
+----

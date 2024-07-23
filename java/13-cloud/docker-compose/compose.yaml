@@ -1,0 +1,134 @@
+services:
+
+  # HashiCorp Consul
+  consul-server:
+    hostname: consul-server
+    container_name: consul-server
+    image: consul:1.15.4
+    restart: always
+    networks:
+      - cloud
+    healthcheck:
+      test: ["CMD", "curl", "-X", "GET", "localhost:8500/v1/status/leader"]
+      interval: 1s
+      timeout: 3s
+      retries: 60
+    command: "agent -server -ui -node=server-1 -bootstrap-expect=1 -client=0.0.0.0"
+  
+  consul-client:
+    hostname: consul-client
+    container_name: consul-client
+    image: consul:1.15.4
+    restart: always
+    networks:
+      - cloud
+    command: "agent -node=client-1 -join=consul-server -retry-join=172.17.0.2"
+
+  consul-init:
+    hostname: consul-init
+    container_name: consul-init
+    image: consul:1.15.4
+    depends_on:
+      consul-server:
+        condition: service_healthy
+    volumes:
+      - ./consul-init.sh:/tmp/consul-init.sh
+    networks:
+      - cloud
+    command: |
+      sh -c "/tmp/consul-init.sh"
+  
+  
+  # HashiCorp Vault
+  # vault:
+  #   hostname: vault
+  #   container_name: vault
+  #   image: vault:1.13.3
+  #   restart: always
+  #   networks:
+  #     - cloud
+  #   ports:
+  #     - "8200:8200"
+  #   cap_add:
+  #     - IPC_LOCK
+  #   environment:
+  #     VAULT_DEV_ROOT_TOKEN_ID: "myrootid"
+  #     VAULT_LOCAL_CONFIG: '{"backend": {"consul": {"address": "consul-server:8500","path":"vault/"}}}'
+
+
+  # PostgreSQL
+  postgres:
+    hostname: postgres
+    container_name: postgres
+    image: postgres
+    platform: linux/amd64
+    restart: always
+    networks:
+      - cloud
+    environment:
+      POSTGRES_PASSWORD: mysecretpassword
+      POSTGRES_USER: admin
+      POSTGRES_DB: users_db
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: pg_isready
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+
+  # Users Service
+  users-service:
+    image: users
+    build:
+      context: ../users
+      dockerfile: Dockerfile
+    restart: always
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/users_db
+      - SPRING_CLOUD_CONSUL_HOST=consul-server
+    networks:
+      - cloud
+    depends_on:
+      consul-server:
+        condition: service_healthy
+      postgres:
+        condition: service_healthy  
+      
+  # My Retro App
+  my-retro-app:
+    image: myretro
+    build:
+      context: ../myretro
+      dockerfile: Dockerfile
+    environment:
+      - SPRING_CLOUD_CONSUL_HOST=consul-server
+    networks:
+      - cloud
+    depends_on:
+      consul-server:
+        condition: service_healthy
+   
+  # # Gateway
+  myretro-gateway:
+    image: myretro-gateway
+    build:
+      context: ../myretro-gateway
+      dockerfile: Dockerfile
+    networks:
+      - cloud
+    environment:
+      - SPRING_CLOUD_CONSUL_HOST=consul-server
+    depends_on:
+      consul-server:
+        condition: service_healthy
+    ports:
+      - "8080:8080"
+
+# Networks
+networks:
+  cloud:
+    name: cloud
+    #external: true
+      

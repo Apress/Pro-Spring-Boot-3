@@ -1,0 +1,27 @@
+= Metrics
+
+[source,shell]
+----
+docker run -d --name=grafana --rm -p 3000:3000 grafana/grafana
+----
+
+[source,shell]
+----
+docker run -d --name=prometheus --rm -p 9090:9090 \
+ -v $PWD/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml \
+ prom/prometheus
+----
+
+[source,yaml]
+.prometheus/prometheus.yml
+----
+scrape_configs:
+  - job_name: 'retroBoard'
+    scrape_interval: 15s
+    scrape_timeout: 10s
+    metrics_path: '/actuator/prometheus'
+    static_configs:
+      - targets: ['host.docker.internal:9081']
+----
+
+image::prometheus/config.png[]

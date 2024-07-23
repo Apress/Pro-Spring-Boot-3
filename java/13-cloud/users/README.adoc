@@ -1,0 +1,211 @@
+= Spring Cloud
+:icons: font
+
+== Part 1 - Consul
+
+=== Database Setup
+
+If you don't have the DB, you can set up a database like:
+
+[source,shell]
+----
+docker run --name postgres --rm \
+ -p 5432:5432 \
+ --platform linux/amd64 \
+ -e POSTGRES_PASSWORD=mysecretpassword \
+ -e POSTGRES_USER=admin \
+ -e POSTGRES_DB=users_db \
+ -d postgres
+----
+
+Testing the connection:
+
+[source,shell]
+----
+docker run -it --rm --platform linux/amd64 --name psql postgres psql -h host.docker.internal -Uadmin users_db
+----
+
+NOTE: The password is `mysecretpassword`
+
+TIP: If you are using Docker Desktop, you can use `host.docker.internal` to connect to the host machine.
+
+=== HashiCorp Consul
+
+We need to set up Server and Client for Consul.
+
+*Server*:
+
+[source,shell]
+----
+docker run \
+    -d \
+    -p 8500:8500 \
+    -p 8600:8600/udp \
+    --rm \
+    --name=consul-server \
+    consul:1.15.4 agent -server -ui -node=server-1 -bootstrap-expect=1 -client=0.0.0.0
+----
+
+*Client*:
+
+[source,shell]
+----
+docker run \
+   --name=consul-client --rm -d \
+   consul:1.15.4 agent -node=client-1 -retry-join=172.17.0.2
+----
+
+==== Adding Some K/V Pairs
+
+We can add some key-value pairs to Consul.
+
+[source,shell]
+----
+curl -X PUT -d 'users_user' http://localhost:8500/v1/kv/config/users-service/db/username
+curl -X PUT -d 'mysecretpassword' http://localhost:8500/v1/kv/config/users-service/db/password
+----
+
+Or, you can install the `consul`  https://developer.hashicorp.com/consul/docs/install[CLI tool^] to interact with Consul and add some key-value pairs.
+
+[source,shell]
+----
+consul kv put config/users-service/db/username admin
+consul kv put config/users-service/db/password mysecretpassword
+----
+
+*Add also this configuration*:
+
+[source,shell]
+----
+consul kv put config/users-service/user/reportFormat PDF
+consul kv put config/users-service/user/emailSubject 'Welcome to the Users Service!'
+consul kv put config/users-service/user/emailFrom 'users@email.com'
+consul kv put config/users-service/user/emailTemplate 'Thanks for choosing Users Service
+We have a REST API that you can use to integrate with your Apps.
+Thanks from the Users App team.'
+----
+
+== Part 2 - Consul and Vault
+
+CAUTION: Before continuing REMOVE the `db.username` and `db.password` from Consul.
+
+=== Database Setup
+
+If you don't have the DB, you can set up a database like:
+
+[source,shell]
+----
+docker run --name postgres --rm \
+ -p 5432:5432 \
+ --platform linux/amd64 \
+ -e POSTGRES_PASSWORD=mysecretpassword \
+ -e POSTGRES_USER=admin \
+ -e POSTGRES_DB=users_db \
+ -d postgres
+----
+
+Verify the connection, and list the users:
+
+[source,shell]
+----
+docker run -it --rm --platform linux/amd64 --name psql postgres psql -h host.docker.internal -Uadmin users_db
+
+
+users_db=# \du
+----
+
+
+=== HashiCorp Vault
+
+We need to set up a Vault server. Using Consul as backend.
+
+[source,shell]
+----
+docker run --cap-add=IPC_LOCK -d --rm --name vault -p 8200:8200 \
+-e 'VAULT_LOCAL_CONFIG={"backend": {"consul": {"address": "host.docker.internal:8500","path":"vault/"}}}' \
+-e 'VAULT_DEV_ROOT_TOKEN_ID=my-root-id' \
+vault:1.13.3
+----
+
+==== Vault Configuration
+
+Login, with the root token = `my-root-id`
+
+[source,shell]
+----
+vault login -address="http://127.0.0.1:8200"
+----
+
+Enable the database secrets engine.
+
+[source,shell]
+----
+vault secrets enable -address="http://127.0.0.1:8200" database
+----
+
+Configure the database secrets engine to use PostgreSQL.
+
+[source,shell]
+----
+vault write -address="http://127.0.0.1:8200" \
+     database/config/users_db \
+     plugin_name=postgresql-database-plugin \
+     connection_url="postgresql://{{username}}:{{password}}@host.docker.internal:5432/users_db?sslmode=disable" \
+     allowed_roles="*" \
+     username="admin" \
+     password="mysecretpassword"
+----
+
+Create a role that maps to the `admin` user.
+
+[source,shell]
+----
+vault write -address="http://127.0.0.1:8200" \
+     database/roles/users-role db_name=users_db \
+     creation_statements="CREATE ROLE \"{{name}}\" WITH LOGIN PASSWORD '{{password}}' VALID UNTIL '{{expiration}}'; GRANT ALL PRIVILEGES ON DATABASE users_db TO \"{{name}}\"; GRANT USAGE ON SCHEMA public TO \"{{name}}\"; GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO \"{{name}}\"; ALTER DATABASE users_db OWNER TO \"{{name}}\";" \
+     default_ttl="30s" \
+     max_ttl="1m"
+----
+
+Review the role and credentials.
+
+[source,shell]
+----
+vault read -address="http://127.0.0.1:8200" \
+  database/creds/users-role
+----
+
+
+== Part 3
+
+=== Docker
+
+*Build*
+
+[source,shell]
+----
+docker build -t users .
+----
+
+or
+
+[source,shell]
+----
+docker build \
+--push \
+--platform linux/arm64,linux/amd64 \
+--tag felipeg48/users:latest .
+----
+
+NOTE: You can remove the `--push` flag if you don't want to push the image to the registry.
+
+
+*Run*
+[source,shell]
+----
+docker run --name users-service --rm \
+--network cloud \
+-e "spring.cloud.consul.host=consul-server" \
+-e "spring.datasource.url=jdbc:postgresql://postgres:5432/users_db" \
+users:latest
+----

@@ -1,0 +1,36 @@
+### Get All Retro Boards
+GET http://localhost:8080/retros
+Content-Type: application/json
+
+### Get Retro Board
+GET http://localhost:8080/retros/9dc9b71b-a07e-418b-b972-40225449aff2
+Content-Type: application/json
+
+### Get All Cards from Retro Baord
+GET http://localhost:8080/retros/9dc9b71b-a07e-418b-b972-40225449aff2/cards
+Content-Type: application/json
+
+### Get Single Card from Retro Board
+GET http://localhost:8080/retros/9dc9b71b-a07e-418b-b972-40225449aff2/cards/bb2a80a5-a0f5-4180-a6dc-80c84bc014c9
+Content-Type: application/json
+
+### Create a Retro Board
+POST http://localhost:8080/retros
+Content-Type: application/json
+
+{
+  "name": "Spring Boot Conference"
+}
+
+### Add Card to Retro
+PUT http://localhost:8080/retros/9dc9b71b-a07e-418b-b972-40225449aff2/cards
+Content-Type: application/json
+
+{
+  "comment": "We are back in business",
+  "cardType": "HAPPY"
+}
+
+### Delete Card from Retro
+DELETE http://localhost:8080/retros/9dc9b71b-a07e-418b-b972-40225449aff2/cards/bb2a80a5-a0f5-4180-a6dc-80c84bc014c9
+Content-Type: application/json

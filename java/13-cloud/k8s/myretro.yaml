@@ -1,0 +1,242 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: cluster-read-role
+rules:
+- apiGroups:
+  - ""
+  resources:
+  - endpoints
+  - pods
+  - services
+  - configmaps
+  verbs:
+  - get
+  - list
+  - watch
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: cluster-read-rolebinding
+subjects:
+- kind: ServiceAccount
+  name: default
+  namespace: default
+roleRef:
+  kind: ClusterRole
+  name: cluster-read-role
+  apiGroup: rbac.authorization.k8s.io
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: users
+  name: users
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: users
+  template:
+    metadata:
+      labels:
+        app: users
+    spec:
+      containers:
+        - name: users
+          image: felipeg48/users:latest
+          ports:
+          - containerPort: 8080
+          env:
+          - name: spring.cloud.consul.enabled
+            value: "false"
+          - name: spring.datasource.url
+            value: "jdbc:postgresql://postgres.default.svc.cluster.local:5432/users_db"
+          - name: spring.datasource.username
+            valueFrom:
+              configMapKeyRef:
+                name: postgres-config
+                key: POSTGRES_USER
+          - name: spring.datasource.password
+            valueFrom:
+              configMapKeyRef:
+                name: postgres-config
+                key: POSTGRES_PASSWORD
+          resources:
+            limits:
+              cpu: "0.5"
+              memory: "768Mi"
+          livenessProbe:
+            httpGet:
+              path: /actuator/health
+              port: 8080
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 6
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: users
+  name: users-service
+spec:
+  type: NodePort
+  selector:
+    app: users
+  ports:
+  - name: http
+    protocol: TCP
+    port: 80
+    targetPort: 8080
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: myretro
+  name: myretro
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: myretro
+  template:
+    metadata:
+      labels:
+        app: myretro
+    spec:
+      containers:
+      - name: myretro
+        image: felipeg48/myretro:latest
+        ports:
+        - containerPort: 8080
+        env:
+          - name: spring.cloud.consul.enabled
+            value: "false"
+          - name: spring.cloud.loadbalancer.cache.enabled
+            value: "false"
+        resources:
+          limits:
+            cpu: "0.5"
+            memory: "768Mi"
+        livenessProbe:
+          httpGet:
+            path: /actuator/health
+            port: 8080
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 6
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: myretro
+  name: my-retro-app
+spec:
+  type: NodePort
+  selector:
+      app: myretro
+  ports:
+  - name: http
+    protocol: TCP
+    port: 80
+    targetPort: 8080
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: myretro-gateway
+data:
+  application.yaml: |-
+    management:
+      endpoint: 
+        gateway:
+          enabled: true
+      endpoints:
+        web:
+          exposure:
+            include: "health,info,gateway,configprops,conditions,env,beans"
+    spring:
+      cloud:
+        gateway:
+          routes:
+            - id: users
+              uri: http://users-service
+              predicates:
+                - Path=/users/**
+              filters:
+                - name: CircuitBreaker
+                  args:
+                    name: users
+                    fallbackUri: forward:/fallback/users
+            - id: myretro
+              uri: http://my-retro-app
+              predicates:
+                - Path=/retros/**
+              filters:
+                - name: CircuitBreaker
+                  args:
+                    name: retros
+                    fallbackUri: forward:/fallback/retros
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: myretro-gateway
+  name: myretro-gateway
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: myretro-gateway
+  template:
+    metadata:
+      labels:
+        app: myretro-gateway
+    spec:
+      containers:
+      - name: myretro-gateway
+        image: felipeg48/myretro-gateway:latest
+        ports:
+        - containerPort: 8080
+        env:
+        - name: spring.config.import
+          value: "kubernetes:"
+        - name: spring.cloud.consul.enabled
+          value: "false"
+        resources:
+          limits:
+            cpu: "0.5"
+            memory: "768Mi"
+        livenessProbe:
+          httpGet:
+            path: /actuator/health
+            port: 8080
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 6
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: myretro-gateway
+  name: myretro-gateway-service
+spec:
+  type: NodePort
+  selector:
+    app: myretro-gateway
+  ports:
+  - name: http
+    protocol: TCP
+    port: 8080
+    targetPort: 8080

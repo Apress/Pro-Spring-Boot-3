@@ -1,0 +1,10 @@
+{
+  "name": "Dummy",
+  "email": "dummy@email.com",
+  "gravatarUrl": "https://www.gravatar.com/avatar/fb651279f4712e209991e05610dfb03a?d=wavatar",
+  "password": "aw2s0me",
+  "userRole": [
+    "INFO"
+  ],
+  "active": true
+}

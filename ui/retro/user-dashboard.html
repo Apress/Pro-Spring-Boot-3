@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Retro App</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+  <header>
+    <div class="branding">Retro App</div>
+    <div class="user-nav-container">
+      <ul class="user-nav">
+        <li><a href="#" id="btn__profile">My Profile</a></li>
+        <li><a href="#" id="btn__logout">Log Out</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <main>
+    <div id="profile" style="display:none">
+      <div class="container container-boxed">
+        <div class="col-50">
+          <h2><img id="profile__data-gravatar" src="" id="" width="40"> My Profile</h2>
+        </div>
+        <div class="col-50">
+          <div id="profile__data" class="profile__data">
+            <p>
+              <span class="label">Nombre</span>
+              <span class="data" id="profile__data-name"></span>
+            </p>
+            <p>
+              <span class="label">Email</span>
+              <span class="data" id="profile__data-email"></span>
+            </p>
+            <p>
+              <span class="label">Role</span>
+              <span class="data" id="profile__data-role"></span>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container">
+      <div class="col-100">
+        <div class="user-welcome">
+          <img id="ls_gravatar" class="gravatar" src="" alt="">
+          <h2>Hello,  <span id="ls_name"></span>!</h2>
+          <p>What are you going to do today?</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="container container-boxed">
+
+      <div class="col col-50">
+        <div class="menu-item-container menu-item-container-left">
+          <h3>My Retros</h3>
+          <p>Select the project in order to write some feedback</p>
+        </div>
+      </div>
+      
+      <div class="col-50">
+        <ul class="retros-list">
+          
+        </ul>
+      </div>
+    </div>
+  </main>
+
+  <script
+    src="assets/js/jquery-3.6.4.min.js"
+    crossorigin="anonymous"></script>
+  <script src="assets/js/common.js"></script>
+  <script src="assets/js/user-dashboard.js"></script>
+</body>
+</html>

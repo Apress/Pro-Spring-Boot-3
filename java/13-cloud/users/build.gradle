@@ -1,0 +1,89 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '3.2.3'
+	id 'io.spring.dependency-management' version '1.1.4'
+    id 'org.hibernate.orm' version '6.4.1.Final'
+    id 'org.graalvm.buildtools.native' version '0.9.28'
+}
+
+group = 'com.apress'
+version = '0.0.1-SNAPSHOT'
+
+java {
+    sourceCompatibility = '17'
+}
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+ext {
+    set('springCloudVersion', "2023.0.0")
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+    }
+}
+
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+
+    // Consult
+    implementation 'org.springframework.cloud:spring-cloud-starter-consul-config'
+    implementation 'org.springframework.cloud:spring-cloud-starter-consul-discovery'
+
+    // Vault
+    //implementation 'org.springframework.cloud:spring-cloud-vault-config-databases'
+    //implementation 'org.springframework.cloud:spring-cloud-starter-vault-config'
+
+
+    // Streaming
+    //implementation 'org.springframework.boot:spring-boot-starter-amqp'
+    //implementation 'org.springframework.cloud:spring-cloud-stream'
+    //implementation 'org.springframework.cloud:spring-cloud-stream-binder-rabbit'
+    //implementation 'org.springframework.integration:spring-integration-file'
+
+
+    runtimeOnly 'org.postgresql:postgresql'
+
+
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+
+    // Web
+    implementation 'org.webjars:bootstrap:5.2.3'
+
+    // Test
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    //testImplementation 'org.springframework.amqp:spring-rabbit-test'
+    //testImplementation 'org.springframework.cloud:spring-cloud-stream-test-binder'
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
+
+hibernate {
+  enhancement {
+    enableAssociationManagement = true
+  }
+}
+
+tasks.named("bootBuildImage") {
+    builder = "dashaun/builder:tiny"
+    environment = ["BP_NATIVE_IMAGE" : "true"]
+}
+

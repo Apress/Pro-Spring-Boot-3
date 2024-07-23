@@ -1,0 +1,44 @@
+spring:
+  application:
+    name: myretro-app
+  h2:
+    console:
+      enabled: true
+
+  jpa:
+    generate-ddl: true
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+
+  datasource:
+    url: jdbc:h2:mem:myretro_db
+
+info:
+  developer:
+    name: Felipe
+    email: felipe@email.com
+  api:
+    version: 1.0
+
+management:
+  endpoints:
+    web:
+     exposure:
+       include: health,info,event-config,shutdown,configprops,beans
+  endpoint:
+    configprops:
+      show-values: always
+    health:
+      show-details: always
+      status:
+        order: events-down, fatal, down, out-of-service, unknown, up
+    shutdown:
+      enabled: true
+
+  info:
+    env:
+      enabled: true
+
+server:
+  port: ${PORT:8080}

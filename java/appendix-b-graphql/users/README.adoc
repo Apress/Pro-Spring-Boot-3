@@ -1,0 +1,121 @@
+= GraphQL with Spring Boot
+
+== Schema
+
+[source,graphql]
+.schema.graphqls
+----
+type Query {
+    users: [User]
+    user(email: String): User
+}
+
+type Mutation {
+    createUser(user: UserInput!): User
+    updateUser(user: UserInput!): User
+    deleteUser(email: String!): Boolean
+}
+
+type User {
+    email: String!
+    name: String!
+    gravatarUrl: String
+    password: String!
+    userRole: [UserRole]!
+    active: Boolean!
+}
+
+input UserInput {
+    email: String!
+    name: String!
+    password: String!
+    userRole: [UserRole]!
+    active: Boolean!
+}
+
+enum UserRole {
+    USER
+    ADMIN
+    INFO
+}
+
+----
+
+== Queries
+
+[source,graphql]
+----
+query {
+    users {
+        email
+        name
+        gravatarUrl
+        userRole
+        active
+    }
+}
+----
+
+[source,graphql]
+----
+query {
+    user(email: "ximena@email.com") {
+        email
+        name
+        gravatarUrl
+        userRole
+        active
+    }
+}
+----
+
+== Mutations
+
+[source,graphql]
+----
+mutation {
+    createUser(user: {
+        email: "dummy@email.com"
+        name: "Dummy"
+        password: "awesome!R2D2"
+        userRole: [USER]
+        active: true
+    }) {
+        email
+        name
+        gravatarUrl
+        userRole
+        active
+    }
+}
+----
+
+[source,graphql]
+----
+mutation {
+    updateUser(user: {
+        email: "dummy@email.com"
+        name: "Dummy"
+        password: "awesome!C3PO"
+        userRole: [USER, ADMIN]
+        active: true
+    }) {
+        email
+        name
+        gravatarUrl
+        userRole
+        active
+    }
+}
+----
+
+[source,graphql]
+----
+mutation {
+    deleteUser(email: "dummy@email.com")
+}
+----
+
+== References
+
+* https://spring.io/projects/spring-graphql#overview[^]

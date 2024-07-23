@@ -1,0 +1,65 @@
+#spring:
+#  application:
+#    name: users-service
+#  config:
+#    import: consul://,vault://
+#
+#  cloud:
+#    vault:
+#      # Default values
+#      #host: localhost
+#      #port: 8200
+#      authentication: TOKEN
+#      token: ${VAULT_TOKEN}  # my-root-id
+#      scheme: http
+#      database:
+#        enabled: true
+#        role: users-role
+#      config:
+#        lifecycle:
+#          enabled: true
+#          min-renewal: 10s
+#          expiry-threshold: 1m
+#      fail-fast: true
+#  datasource:
+#    url: jdbc:postgresql://localhost:5432/users_db?sslmode=disable
+#
+#
+#  jpa:
+#    generate-ddl: true
+#    show-sql: true
+#    hibernate:
+#      ddl-auto: update
+#
+#info:
+#  developer:
+#    name: Felipe
+#    email: felipe@email.com
+#  api:
+#    version: 1.0
+#
+#management:
+#  endpoints:
+#    web:
+#     exposure:
+#       include: health,info,event-config,shutdown,configprops,beans
+#  endpoint:
+#    configprops:
+#      show-values: always
+#    health:
+#      show-details: always
+#      status:
+#        order: events-down, fatal, down, out-of-service, unknown, up
+#    shutdown:
+#      enabled: true
+#
+#  info:
+#    env:
+#      enabled: true
+#
+#logging:
+#  level:
+#    org.springframework.vault: ERROR
+#
+#server:
+#  port: ${PORT:8080}

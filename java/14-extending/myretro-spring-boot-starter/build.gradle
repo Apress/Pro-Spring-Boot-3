@@ -1,0 +1,109 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '3.2.3' apply false
+	id 'io.spring.dependency-management' version '1.1.4'
+	id 'maven-publish'
+}
+
+group = 'com.apress'
+version = '0.0.1'
+
+java {
+	sourceCompatibility = '17'
+}
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+tasks.named('compileJava') {
+	inputs.files(tasks.named('processResources'))
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencyManagement {
+	imports {
+		mavenBom org.springframework.boot.gradle.plugin.SpringBootPlugin.BOM_COORDINATES
+	}
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-aop'
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
+
+	runtimeOnly 'com.h2database:h2'
+
+	compileOnly 'org.projectlombok:lombok'
+
+
+	annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+	annotationProcessor 'org.projectlombok:lombok'
+
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
+
+publishing {
+	publications {
+		mavenJava(MavenPublication) {
+			from components.java
+			artifactId = 'myretro-spring-boot-starter'
+
+			versionMapping {
+				usage('java-api') {
+					fromResolutionOf('runtimeClasspath')
+				}
+				usage('java-runtime') {
+					fromResolutionResult()
+				}
+			}
+
+			pom {
+				name = 'My Retro Starter'
+				description = 'A spring-boot-starter library example'
+
+				licenses {
+					license {
+						name = 'The Apache License, Version 2.0'
+						url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+					}
+				}
+				developers {
+					developer {
+						id = 'felipeg48'
+						name = 'Felipe'
+						email = ''
+					}
+				}
+				scm {
+					connection = 'scm:git:git://github.com/felipeg48/myretro-spring-boot-starter.git'
+					developerConnection = 'scm:git:ssh://github.com/felipeg48/myretro-spring-boot-starter.git'
+					url = 'https://github.com/felipeg48/myretro-spring-boot-starter'
+				}
+			}
+
+
+		}
+	}
+	repositories {
+		maven {
+			name = "GitHubPackages"
+			url = uri("https://maven.pkg.github.com/felipeg48/myretro-spring-boot-starter")
+			credentials {
+				username = project.findProperty("GITHUB_USERNAME") ?: System.getenv("GITHUB_USERNAME")
+				password = project.findProperty("GITHUB_TOKEN") ?: System.getenv("GITHUB_TOKEN")
+			}
+		}
+	}
+
+}

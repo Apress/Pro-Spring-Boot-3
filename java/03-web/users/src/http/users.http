@@ -1,0 +1,33 @@
+### GET all users 1st time
+GET http://localhost:8080/users
+Accept: application/json
+
+### GET user by email
+GET http://localhost:8080/users/norma@email.com
+Accept: application/json
+
+### POST new user
+POST http://localhost:8080/users
+Content-Type: application/json
+
+{
+  "name": "Dummy",
+  "email": "dummy@email.com",
+  "password": "aw2s0meR!",
+  "userRole": [
+    "INFO"
+  ],
+  "active": true
+}
+
+### GET all users 2nd time
+GET http://localhost:8080/users
+Accept: application/json
+
+### DELETE user
+DELETE http://localhost:8080/users/dummy@email.com
+
+
+### GET all users 3rd time
+GET http://localhost:8080/users
+Accept: application/json

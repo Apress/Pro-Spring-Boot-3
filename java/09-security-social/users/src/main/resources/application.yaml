@@ -1,0 +1,28 @@
+spring:
+  h2:
+    console:
+      enabled: true
+  datasource:
+    generate-unique-name: false
+    name: test-db
+  jpa:
+    show-sql: true
+
+
+  security:
+    oauth2:
+      client:
+        registration:
+          github:
+            client-id: ${GITHUB_CLIENT_ID}
+            client-secret: ${GITHUB_CLIENT_SECRET}
+            scope:
+              - user:email
+              - https://github.com/login/oauth/authorize
+
+logging:
+  level:
+    org:
+      springframework:
+        security: DEBUG
+

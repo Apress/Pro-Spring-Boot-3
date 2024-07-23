@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="56.569" height="56.569" viewBox="0 0 56.569 56.569">
+  <defs>
+    <rect id="rect-2" width="2" height="40" x="27.284" y="8.284" rx="0" ry="0"/>
+    <mask id="mask-3" maskContentUnits="userSpaceOnUse" maskUnits="userSpaceOnUse">
+      <rect width="56.569" height="56.569" x="0" y="0" fill="black"/>
+      <use fill="white" xlink:href="#rect-2"/>
+    </mask>
+  </defs>
+  <g transform="rotate(45.000016 28.28427125 28.28427125)">
+    <rect width="2" height="40" x="27.284" y="8.284" fill="rgb(255,255,255)" rx="0" ry="0"/>
+    <use fill="rgb(255,255,255)" transform="rotate(89.999903 28.28427125 28.28427125)" xlink:href="#rect-2"/>
+    <g mask="url(#mask-3)" transform="rotate(89.999903 28.28427125 28.28427125)"/>
+  </g>
+</svg>

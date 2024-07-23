@@ -1,0 +1,11 @@
+{
+  "name": "Norma",
+  "email": "norma@email.com",
+  "gravatarUrl": "https://www.gravatar.com/avatar/f07f7e553264c9710105edebe6c465e7?d=wavatar",
+  "password": "12345678",
+  "userRole": [
+    "USER",
+    "ADMIN"
+  ],
+  "active": true
+}

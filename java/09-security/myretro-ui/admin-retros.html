@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Retro App</title>
+  <link rel="stylesheet" href="assets/css/style.css?v=0.3">
+</head>
+<body>
+
+  <header>
+    <div class="branding">Retro App</div>
+    <div class="user-nav-container">
+      <ul class="user-nav">
+        <li><a href="#" id="btn__profile">My Profile</a></li>
+        <li><a href="#" id="btn__logout">Log Out</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <main>
+    <div id="profile" style="display:none">
+      <div class="container container-boxed">
+        <div class="col-50">
+          <h2><img id="profile__data-gravatar" src="" width="40" alt=""> My Profile</h2>
+        </div>
+        <div class="col-50">
+          <div id="profile__data" class="profile__data">
+            <p>
+              <span class="label">Name</span>
+              <span class="data" id="profile__data-name"></span>
+            </p>
+            <p>
+              <span class="label">Email</span>
+              <span class="data" id="profile__data-email"></span>
+            </p>
+            <p>
+              <span class="label">Role</span>
+              <span class="data" id="profile__data-role"></span>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container container-boxed">
+      <div class="col col-50">
+        <h1 class="title"><img src="assets/images/icon-retro.svg" width="80" alt="Users"> Retros</h1>
+      </div> 
+      <div class="col col-50">
+        <div class="action">
+          <a href="#" class="open-modal btn-primary" data-target="#overlay__create-retro">Create New Retro</a>
+        </div>
+      </div>
+    </div>
+    <!-- end container container-boxed -->
+
+    <div class="container container-boxed">
+      <div class="col-100">
+        <div class="table-container table-users">
+          <table id="list-retros" class="table table-list retros">
+            <thead>
+              <th scope="col">Retro</th>
+              <th scope="col">Actions</th>
+            </thead>
+            <tbody>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <!-- end container container-boxed -->
+    
+    <div id="overlay__create-retro" class="overlay overlay-retros">
+      <aside class="create-new-item create-retro">
+        <div class="header">
+          <h3 class="title">New Retro 
+            <a href="#" class="close-modal" data-target="#overlay__create-retro"><img src="assets/images/icon-close.svg" alt=""></a></h3>
+        </div>
+        
+        <div class="form-container">
+          <form action="">
+            <div class="form-item" >
+              <label for="retro_name">Retro Name</label>
+              <input type="text" name="retro_name" id="retro_name" required placeholder="Write a name for new retro">
+            </div>
+            <div class="form-item message" style="display: none;"></div>
+            <div class="form-item form-button">
+              <button id="btn__create-retro" class="btn-primary">Create New Retro</button>
+            </div>
+          </form>
+        </div>
+      </aside>
+    </div>
+
+    <div id="overlay__update-retro" class="overlay overlay-retros">
+      <aside class="create-new-item create-retro">
+        <div class="header">
+          <h3 class="title">Edit Retro 
+            <a href="#" class="close-modal" data-target="#overlay__update-retro"><img src="assets/images/icon-close.svg" alt=""></a></h3>
+        </div>
+        
+        <div class="form-container">
+          <form action="">
+            <div class="form-item" >
+              <label for="retro_name_update">New Name</label>
+              <input type="text" name="retro_name" id="retro_name_update" required placeholder="Write a name for new retro">
+              <input type="hidden" id="retro_id_update">
+              <input type="hidden" id="retro_target">
+            </div>
+            <div class="form-item message" style="display: none;"></div>
+            <div class="form-item form-button">
+              <button id="btn__update-retro" class="btn-primary">Update New Retro</button>
+            </div>
+          </form>
+        </div>
+      </aside>
+    </div>
+
+    <div id="overlay__add-users" class="overlay wide overlay-retros">
+      <aside class="create-new-item create-retro">
+        <div class="header">
+          <h3 class="title">Add Users 
+            <a href="#" class="close-modal" data-target="#overlay__add-users"><img src="assets/images/icon-close.svg" alt=""></a></h3>
+        </div>
+        
+        <div class="form-container">
+
+          <form action="">
+            <div class="form-item">
+              <div class="table-container-rs">
+                <table class="table-add-users" id="table-add-users">
+                  <thead>
+                    <th scope="col">Users</th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                  </thead>
+                  <tbody>
+                   
+                  </tbody>
+                </table>
+              </div>
+            </div>
+        
+            <div class="form-item message" style="display: none;"></div>
+          
+            <div class="form-item form-button">
+              <button id="create-retro" class="btn-primary">Create New Retro</button>
+            </div>
+          </form>
+        </div>
+      </aside>
+    </div>
+
+    <!-- overlay -->
+  </main>
+
+  <script
+    src="assets/js/jquery-3.6.4.min.js"
+    crossorigin="anonymous"></script>
+  <script src="assets/js/common.js"></script>
+  <script src="assets/js/retros.js?v=0.1"></script>
+</body>
+</html>

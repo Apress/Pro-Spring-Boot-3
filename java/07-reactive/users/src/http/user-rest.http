@@ -1,0 +1,12 @@
+POST http://localhost:8080/users
+Content-Type: application/json
+
+{
+  "name": "Dummy",
+  "email": "dummy@email.com",
+  "password": "aw2s0me",
+  "userRole": [
+    "INFO"
+  ],
+  "active": true
+}

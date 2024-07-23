@@ -1,0 +1,13 @@
+version: "3"
+services:
+  artemis:
+    container_name: artemis
+    hostname: artemis
+    image: apache/activemq-artemis:latest-alpine
+    platform: linux/amd64
+    restart: always
+    environment:
+      EXTRA_ARGS: "--nio --relax-jolokia --http-host 0.0.0.0"
+    ports:
+      - "61616:61616"
+      - "8161:8161"

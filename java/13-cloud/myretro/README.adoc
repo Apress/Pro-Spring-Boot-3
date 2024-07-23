@@ -1,0 +1,32 @@
+= My Retro
+
+== Docker
+
+*Build*
+
+[source,shell]
+----
+docker build -t myretro .
+----
+
+or
+
+[source,shell]
+----
+docker build \
+--push \
+--platform linux/arm64,linux/amd64 \
+--tag felipeg48/myretro:latest .
+----
+
+NOTE: You can remove the `--push` flag if you don't want to push the image to the registry.
+
+*Run*
+
+[source,shell]
+----
+docker run --name my-retro-app --rm \
+--network cloud \
+-e "spring.cloud.consul.host=consul-server" \
+myretro:latest
+----

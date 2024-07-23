@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Retro App</title>
+  <link rel="stylesheet" href="assets/css/style.css?v=0.1">
+</head>
+<body>
+
+  <header>
+    <div class="branding">Retro App</div>
+    <div class="user-nav-container">
+      <ul class="user-nav">
+        <li><a href="#" id="btn__profile">My Profile</a></li>
+        <li><a href="#" id="btn__logout">Log Out</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <main>
+    <div id="profile" style="display:none">
+      <div class="container container-boxed">
+        <div class="col-50">
+          <h2><img id="profile__data-gravatar" src="" width="40" alt=""> My Profile</h2>
+        </div>
+        <div class="col-50">
+          <div id="profile__data" class="profile__data">
+            <p>
+              <span class="label">Name</span>
+              <span class="data" id="profile__data-name"></span>
+            </p>
+            <p>
+              <span class="label">Email</span>
+              <span class="data" id="profile__data-email"></span>
+            </p>
+            <p>
+              <span class="label">Role</span>
+              <span class="data" id="profile__data-role"></span>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container container-boxed">
+      <div class="col col-50">
+        <h1 class="title"><img src="assets/images/icon-users.svg" width="80" alt="Users"> Users</h1>
+      </div> 
+      <div class="col col-50">
+        <div class="action">
+          <a href="#" class="btn-primary open-modal" data-target="#overlay__create-user">Create New User</a>
+        </div>
+      </div>
+    </div>
+    <!-- end container container-boxed -->
+
+    <div class="container container-boxed">
+      <div class="col-100">
+        <div class="table-container table-users">
+          <table id="list-users" class="table table-list">
+            <thead>
+              <th scope="col">Full Name</th>
+              <th scope="col">E-mail</th>
+              <th scope="col">Role</th>
+              <th scope="col">Active</th>
+              <th scope="col">&nbsp;</th>
+            </thead>
+            <tbody>
+             
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <!-- end container container-boxed -->
+
+    <div id="overlay__create-user" class="overlay overlay-users">
+      <aside class="create-new-item create-user">
+        <div class="header">
+          <h3 class="title" ><span id="updateUserTitle">New User</span>
+            <a href="#" class="close-modal" data-target="#overlay__create-user"><img src="assets/images/icon-close.svg" alt=""></a></h3>
+        </div>
+
+        <div class="form-container">
+          <form action="">
+            <div class="form-item">
+              <label for="name">Full Name</label>
+              <input type="text" id="name" name="name" placeholder="Write full name">
+            </div>
+            <div class="form-item">
+              <label for="email">E-mail address</label>
+              <input type="email" id="email" name="email" placeholder="your-mail@google.com" >
+            </div>
+            <div class="form-item">
+              <label for="password">Password</label>
+              <input type="password" id="password" name="password" placeholder="Write your password">
+            </div>
+            <div class="form-item">
+              <label for="userRole">Role</label>
+              <select name="userRole" id="userRole">
+                <option value="USER" selected>User</option>
+                <option value="ADMIN">Administrator</option>
+              </select>
+            </div>
+            <div class="form-item">
+              <label for="active">Active</label>
+              <input type="checkbox" id="active" name="active">
+            </div>
+
+            <div class="form-item message" style="display: none;"></div>
+            
+            <div class="form-item form-button">
+              <button id="btn__create-user" class="btn-primary">Create New User</button>
+            </div>
+          </form>
+        </div>
+      </aside> 
+    </div>
+  </main>
+
+  <script
+    src="assets/js/jquery-3.6.4.min.js"
+    crossorigin="anonymous"></script>
+  <script src="assets/js/common.js"></script>
+  <script src="assets/js/users.js"></script>
+</body>
+</html>

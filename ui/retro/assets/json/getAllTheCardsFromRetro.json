@@ -1,0 +1,62 @@
+[
+  {
+    "id": "45a775da-bf46-4938-96ab-cf121c515841",
+    "cardType": "HAPPY",
+    "comment": "Happy 1",
+    "userEmail": "ximena@email.com"
+  },
+  {
+    "id": "45a775da-bf46-4938-96ab-cf121c515842",
+    "cardType": "MEH",
+    "comment": "Meh meh meh 1",
+    "userEmail": "ximena@email.com"
+  },
+  {
+    "id": "45a775da-bf46-4938-96ab-cf121c515843",
+    "cardType": "HAPPY",
+    "comment": "Happy 2",
+    "userEmail": "ximena@email.com"
+  },
+  {
+    "id": "45a775da-bf46-4938-96ab-cf121c515844",
+    "cardType": "SAD",
+    "comment": "Sadness 1",
+    "userEmail": "ximena@email.com"
+  },
+  {
+    "id": "45a775da-bf46-4938-96ab-cf121c515845",
+    "cardType": "MEH",
+    "comment": "Meh meh meh 2",
+    "userEmail": "ximena@email.com"
+  },
+  {
+    "id": "45a775da-bf46-4938-96ab-cf121c515846",
+    "cardType": "HAPPY",
+    "comment": "Happy 3",
+    "userEmail": "ximena@email.com"
+  },
+  {
+    "id": "45a775da-bf46-4938-96ab-cf121c515847",
+    "cardType": "SAD",
+    "comment": "Sadness 2",
+    "userEmail": "ximena@email.com"
+  },
+  {
+    "id": "45a775da-bf46-4938-96ab-cf121c515848",
+    "cardType": "HAPPY",
+    "comment": "Happy 4",
+    "userEmail": "ximena@email.com"
+  },
+  {
+    "id": "45a775da-bf46-4938-96ab-cf121c515849",
+    "cardType": "MEH",
+    "comment": "Meh meh meh 3",
+    "userEmail": "ximena@email.com"
+  },
+  {
+    "id": "45a775da-bf46-4938-96ab-cf121c515850",
+    "cardType": "SAD",
+    "comment": "Sad 4",
+    "userEmail": "ximena@email.com"
+  }
+]

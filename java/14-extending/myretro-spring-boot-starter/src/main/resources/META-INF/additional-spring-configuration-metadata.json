@@ -1,0 +1,73 @@
+{
+  "groups": [
+    {
+      "name": "myretro.audit",
+      "type": "com.apress.myretro.configuration.MyRetroAuditProperties",
+      "sourceType": "com.apress.myretro.configuration.MyRetroAuditProperties"
+    }
+  ],
+  "properties": [
+    {
+      "name": "myretro.audit.prefix",
+      "type": "java.lang.String",
+      "sourceType": "com.apress.myretro.configuration.MyRetroAuditProperties",
+      "defaultValue": "[AUDIT] ",
+      "description": "Prefix for audit messages"
+    },
+    {
+      "name": "myretro.audit.file",
+      "type": "java.lang.String",
+      "sourceType": "com.apress.myretro.configuration.MyRetroAuditProperties",
+      "defaultValue": "myretro.events",
+      "description": "File to write audit messages to"
+    },
+    {
+      "name": "myretro.audit.useLogger",
+      "type": "java.lang.Boolean",
+      "sourceType": "com.apress.myretro.configuration.MyRetroAuditProperties",
+      "defaultValue": "false",
+      "description": "Enable audit logging"
+    }
+  ],
+  "hints": [
+    {
+      "name": "myretro.audit.prefix",
+      "values": [
+        {
+          "value": "[AUDIT] ",
+          "description": "Prefix for audit messages"
+        },
+        {
+          "value": ">>> ",
+          "description": "Prefix for audit messages"
+        }
+      ]
+    },
+    {
+      "name": "myretro.audit.file",
+      "values": [
+        {
+          "value": "myretro.events",
+          "description": "File to write audit messages to"
+        },
+        {
+          "value": "myretro.log",
+          "description": "File to write audit messages to"
+        }
+      ]
+    },
+    {
+      "name": "myretro.audit.useLogger",
+      "values": [
+        {
+          "value": "true",
+          "description": "Enable audit logging"
+        },
+        {
+          "value": "false",
+          "description": "Disable audit logging,just print out console"
+        }
+      ]
+    }
+  ]
+}

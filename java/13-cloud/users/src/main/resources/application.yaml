@@ -1,0 +1,58 @@
+spring:
+  application:
+    name: users-service
+  config:
+    import: optional:consul://
+
+
+  # Consul configuration - Default values
+  cloud:
+    ## Enable this after you created the whole YAML in the config/users-service/data key.
+    #config:
+    #  format: YAML
+    consul:
+      ## Default values
+      host: localhost
+      port: 8500
+      #discovery:
+      #  # A way to identify the instance in the service registry
+      #  instance-id: ${spring.application.name}:${spring.application.instance_id:${random.int[1,99]}}
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/users_db?sslmode=disable
+    username: ${db.username}
+    password: ${db.password}
+  jpa:
+    generate-ddl: true
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+
+info:
+  developer:
+    name: Felipe
+    email: felipe@email.com
+  api:
+    version: 1.0
+
+management:
+  endpoints:
+    web:
+     exposure:
+       include: health,info,event-config,shutdown,configprops,beans
+  endpoint:
+    configprops:
+      show-values: always
+    health:
+      show-details: always
+      status:
+        order: events-down, fatal, down, out-of-service, unknown, up
+    shutdown:
+      enabled: true
+
+  info:
+    env:
+      enabled: true
+
+server:
+  port: ${PORT:8080}
