@@ -25,7 +25,7 @@ public class RetroBoardResponseEntityExceptionHandler extends ResponseEntityExce
 
         response.put("msg","There is an error");
         response.put("code",HttpStatus.NOT_FOUND.value());
-        response.put("time", LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-mm-dd HH:mm:ss")));
+        response.put("time", LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
 
         Map<String, String> errors = new HashMap<>();
         errors.put("msg",ex.getMessage());
